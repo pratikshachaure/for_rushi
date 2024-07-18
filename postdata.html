@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form id="myform" action="http://localhost:4000/api" method="post" name="myform">
+        name: <input type="text" name="fname" value="">
+        email: <input type="email" name="email" value="">
+        password: <input type="password" name="password" value="">
+        <input type="button" value="Submit" onclick="myfun(event)">
+    </form>
+
+    <script>
+        async function myfun(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            let form = document.forms["myform"];
+            let fname = form["fname"].value;
+            let email = form["email"].value;
+            let password = form["password"].value;
+            let newform = { fname, email, password };
+            console.log(newform);
+
+            try {
+                const response = await fetch("http://localhost:4000/api", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newform) // Serialize object to JSON string
+                });
+                console.log(await response.json());
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    </script>
+
+</body>
+</html>

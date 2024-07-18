@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="text" id="text"><br><br>
+    <button onclick="myfun()">Add..</button>
+    <ul id="list_container"></ul>
+    <script>
+        let arr = [];
+        let list_container = document.getElementById('list_container');
+
+        function myfun() {
+            let text = document.getElementById('text').value;
+            if (text !== "") {
+                arr.push(text); // Add text to the array
+                renderList();
+                console.log(arr);
+            }
+        }
+
+        function removeItem(index) {
+            arr.splice(index, 1); 
+            renderList();
+        }
+
+        function renderList() {
+            list_container.innerHTML = "";
+            arr.forEach((item, index) => {
+                let li = document.createElement('li');
+                li.innerHTML = `${item} <button onclick="removeItem(${index})">Remove</button>`;
+                list_container.appendChild(li);
+            });
+            saveData();
+        }
+
+        function saveData() {
+            localStorage.setItem("data", JSON.stringify(arr)); 
+        } 
+        
+        function showtask() {
+            let data = localStorage.getItem("data");
+            if (data) {
+                arr = JSON.parse(data);
+                renderList();
+            }
+        }
+
+        showtask();
+    </script>
+</body>
+</html>
